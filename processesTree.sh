@@ -19,7 +19,6 @@ for i in $(seq 5 5 $((${#list[*]}-1))); do
 			time=${list[$(($j+3))]}
 			user=${list[$(($j+4))]}
 			insert=($name $currentPID $ppid $time $user)
-			echo $k
 			results=(${results[*]:0:$k} ${insert[*]} ${results[*]:$k})
 			k=$(($k+5))
 		fi
@@ -27,10 +26,15 @@ for i in $(seq 5 5 $((${#list[*]}-1))); do
 done
 
 for count in $(seq 0 5 $((${#results[*]}-1)) ); do
-	name=${list[$count]}
-	pid=${list[$(($count+1))]}
-	ppid=${list[$(($count+2))]}
-	time=${list[$(($count+3))]}
-	user=${list[$(($count+4))]}
-	echo -e "$name\t\tPID:$pid\t\tPPID:$ppid\t\tSTARTED: $time\tby:$user"
+	name=${results[$count]}
+	pid=${results[$(($count+1))]}
+	ppid=${results[$(($count+2))]}
+	time=${results[$(($count+3))]}
+	user=${results[$(($count+4))]}
+	if (( $count != 0 )); then
+		echo "|"
+		echo -n "|- "	
+	fi
+	echo -e "$name  PID:$pid  PPID:$ppid  STARTED: $time  by:$user"
 done
+
