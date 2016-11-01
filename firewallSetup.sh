@@ -25,9 +25,9 @@ sudo iptables -A INPUT -p TCP -j DROP
 sudo iptables -A OUTPUT -d 130.15.0.0/16 -p TCP --dport 22 -j ACCEPT
 sudo iptables -A OUTPUT -p TCP --dport 22 -j DROP
 
-#only IP 130.15.100.100 can use mysql
-sudo iptables -A INPUT -s 130.15.100.100/32 -p TCP --dport 3306 -j ACCEPT
-sudo iptables -A INPUT -p TCP --dport 3306 -j DROP
+#only IP 130.15.100.100 can use mysql, needs to be before stopping TCP traffic
+sudo iptables -I INPUT 8 -s 130.15.100.100/32 -p TCP --dport 3306 -j ACCEPT
+sudo iptables -I INPUT 9 -p TCP --dport 3306 -j DROP
 
 #drop outgoing ssh traffic
 sudo iptables -A OUTPUT -p TCP --dport 22 -j DROP
